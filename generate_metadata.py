@@ -14,11 +14,8 @@ class metadata():
     def get_summary(self,name):
         return wikipedia.summary(name)
 
-    # def get_cover(self, name):
-        
-
-
-
+    def get_cover(self, name):
+        arguments = {"keywords":"Polar bears,baloons,Beaches","limit":20,"print_urls":True}
 
 
 
