@@ -1,24 +1,31 @@
+from zipfile import ZipFile
+
 import wikipedia
-import google_images_download
+from icrawler.builtin import GoogleImageCrawler
 
 
 class metadata():
 
-    def __init__(self, language, ):
+    def __init__(self, language, file_path):
         # self.wikipedia = wikipedia
         wikipedia.set_lang(language)
-        
-        response = google_images_download.googleimagesdownload()
+        self.name = file_path
+        self.file_path = file_path
+
+    def get_summary(self):
+        return wikipedia.summary(self.name)
+
+    def get_cover_internet(self):
+        google_crawler = GoogleImageCrawler(storage={'root_dir': 'your_image_dir'})
+        google_crawler.crawl(keyword=self.name, max_num=1)
+
+    def get_cover_path(self):
+        with ZipFile(self.file_path, 'r') as myzip:
+            for name in myzip.infolist():
+                print(name.filename.encode('cp437').decode('cp932'))
 
 
-    def get_summary(self,name):
-        return wikipedia.summary(name)
-
-    def get_cover(self, name):
-        arguments = {"keywords":"Polar bears,baloons,Beaches","limit":20,"print_urls":True}
-
-
-
-a = metadata('jp')
-print(a.get_summary('ONE PIECE'))
-
+# a = metadata('jp', 'test/[あらゐけいいち] 日常 第08巻.zip')
+# print(a.get_summary())
+# a.get_cover('ONE PIECE')
+# print(a.get_cover())
